@@ -1,5 +1,6 @@
 package com.example.gateway.login;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.webflux.ProxyExchange;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.ResponseEntity;
@@ -12,14 +13,20 @@ import reactor.core.publisher.Mono;
 @RestController
 public class LoginRoutes {
 
+    @Value("${demo.host}")
+    private String demoHost;
+
+    @Value("${demo.port}")
+    private String demoPort;
+
     @RequestMapping(method = RequestMethod.GET, value = "test")
     public Mono<ResponseEntity<byte[]>> getTest(ProxyExchange<byte[]> proxy) throws Exception {
-        return proxy.uri("http://localhost:10002/test").get();
+        return proxy.uri("http://"+demoHost+":"+demoPort+"/test").get();
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "home")
     public Mono<ResponseEntity<byte[]>> home(ProxyExchange<byte[]> proxy) throws Exception {
-        return proxy.uri("http://localhost:10002/home").get();
+        return proxy.uri("http://"+demoHost+":"+demoPort+"/home").get();
     }
 
 }

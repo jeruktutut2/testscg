@@ -1,0 +1,27 @@
+version: "3.3"
+services:
+  demo:
+    container_name: c-demo
+    image: i-demo:1.0
+    ports:
+      - 10002:10002
+    environment:
+      - strTEST=string test dari docker compose
+      - strHOME=string home dari docker compose
+    networks:
+      - docker_networks
+  gateway:
+    container_name: c-gateway
+    image: i-gateway:1.0
+    ports:
+      - 10003:10003
+    environment:
+      - HOST=demo
+      - PORT=10002
+    depends_on:
+      - demo
+    networks:
+      - docker_networks
+networks:
+  docker_networks:
+    name: docker_networks
